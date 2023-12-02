@@ -1,20 +1,21 @@
-package com.example.shoppinglistmvvm
+package com.example.shoppinglistmvvm.data.db
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.shoppinglistmvvm.data.db.entities.ShoppingItem
 
 @Database(
     entities = [ShoppingItem::class],
     version = 1
 )
-abstract class ShoppingDatabase: RoomDatabase() {
+abstract class ShoppingDatabase : RoomDatabase() {
     abstract fun getShoppingDao(): ShoppingDao
 
     companion object {
         @Volatile
-        private var instance : ShoppingDatabase? = null
+        private var instance: ShoppingDatabase? = null
 
         private val LOCK = Any()
         operator fun invoke(context: Context) = instance ?: synchronized(LOCK) {
@@ -22,7 +23,9 @@ abstract class ShoppingDatabase: RoomDatabase() {
         }
 
         private fun createDatabase(context: Context) =
-            Room.databaseBuilder(context.applicationContext,
-                ShoppingDatabase::class.java , "ShoppingDB.db").build()
+            Room.databaseBuilder(
+                context.applicationContext,
+                ShoppingDatabase::class.java, "ShoppingDB.db"
+            ).build()
     }
 }
